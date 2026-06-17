@@ -37,4 +37,8 @@ RUN mkdir -p chroma_db data/sample_docs
 # Falls back to 8000 for local docker-compose testing
 EXPOSE ${PORT:-8000}
 
+# Ensure pydantic-settings reads from os.environ, not just .env file
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
 CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

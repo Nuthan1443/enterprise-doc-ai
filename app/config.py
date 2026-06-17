@@ -5,7 +5,7 @@ from functools import lru_cache
 class Settings(BaseSettings):
     # LLM
     groq_api_key: str
-    groq_model_name: str = "llama-3.3-70b-versatile"
+    groq_model_name: str = "llama-3.1-8b-instant"
 
     # Embeddings
     embedding_model_name: str = "sentence-transformers/all-MiniLM-L6-v2"
@@ -24,10 +24,17 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     max_upload_size_mb: int = 50
 
-    model_config = {"env_file": ".env", "case_sensitive": False}
-
+    model_config = {
+        "env_file": ".env",
+        "env_file_encoding": "utf-8",
+        "case_sensitive": False,
+        "extra": "ignore",
+        "env_ignore_empty": False,
+    }
 
 
 @lru_cache()
 def get_settings() -> Settings:
-    return Settings()
+    from pathlib import Path
+    env_file = ".env" if Path(".env").exists() else None
+    return Settings(_env_file=env_file)
