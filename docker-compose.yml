@@ -6,16 +6,12 @@ services:
     ports:
       - "8000:8000"
     environment:
-      # These override .env for local Docker testing
       - APP_ENV=production
       - LOG_LEVEL=INFO
+      - PORT=8000
     env_file:
-      # Loads all variables from .env including API keys
-      # Never hardcode API keys in docker-compose.yml
       - .env
     volumes:
-      # Mount chroma_db as a volume so data persists across container restarts
-      # Without this, ChromaDB is wiped every time the container restarts
       - chroma_data:/app/chroma_db
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
