@@ -41,4 +41,4 @@ EXPOSE ${PORT:-8000}
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+CMD ["sh", "-c", "echo 'ENV CHECK:' && env | grep -E 'GROQ|APP_ENV' || echo 'NO VARS FOUND' && uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
